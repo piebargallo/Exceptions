@@ -1,18 +1,34 @@
+/* Division-by-zero 
+
+The try/catch
+try {
+	// ... code which my result in an exception beging throw
+} catch (exception-type1 exception-name) {
+	// ... code which responde to the exception of tipe 1
+}
+// ... remaining code */
+
 #include <iostream>
+#include <stdexcept>
 using std::cout;
+using std::invalid_argument;
 using std::endl;
-using std::cerr;
+
+auto safeDivide(auto num, auto den)
+{
+	if (den == 0)
+		throw invalid_argument{ "Divide by zero" };
+	return num / den;
+}
 
 int main()
 {
-    try
-    {
-        throw 2.7; // throw (lanza) excepción de tipo double
-        cout << "Esto nunca se imprime" << endl;;
-    }
-    catch (double x) // maneja excepción de tipo double
-    {
-        cerr << "Hemos capturado un double de valor: " << x << endl;
-    }
-    return 0;
+	try {
+		cout << safeDivide(5, 2) << endl;
+		cout << safeDivide(10, 0) << endl;
+		cout << safeDivide(3, 3) << endl;
+	}
+	catch (const invalid_argument& e) {
+		cout << "Caught exception: " << e.what() << endl;
+	}
 }
